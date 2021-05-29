@@ -9,6 +9,12 @@ const jwt = require('jsonwebtoken')
 const app = express()
 const port = process.env.PORT || 3000
 
+app.use((req,res,next)=>{
+
+    // console.log("trym")
+    next()
+})
+
 app.use(express.json())
 app.use(UserRouter)
 
@@ -16,13 +22,13 @@ app.listen(port,()=>{
     console.log("listening on "+ port)
 })
 
-const myFunstion = async ()=>{
+const myFunction = async ()=>{
     const token = jwt.sign({ _id:'abc123'},'vvuutvutt',{expiresIn: '1 seconds'})
     console.log(token)
     console.log(jwt.verify(token,'vvuutvutt'))
 }
 
-myFunstion()
+// myFunction()
 
 
 
