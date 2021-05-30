@@ -30,6 +30,11 @@ const myFunction = async ()=>{
 
 // myFunction()
 
-
+const pet = {
+    'name':'hel'
+}
+ pet.toJSON=function(){
+     return this
+ }
 
 

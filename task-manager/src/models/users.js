@@ -38,6 +38,20 @@ const userSchema=new mongoose.Schema({
     }]
 })
 
+userSchema.virtual('tasks',{
+    ref:'Task',
+    localField: '_id',
+    foreignField:'owner'
+})
+
+userSchema.methods.toJSON=  function(){
+    const user = this
+    let uo=user.toObject()
+    delete uo.password
+    delete uo.tokens
+    return uo
+}
+
 userSchema.methods.generateAuthToken= async function(){
     const user = this
     const token = jwt.sign({_id:user._id.toString()},'check')
@@ -45,6 +59,8 @@ userSchema.methods.generateAuthToken= async function(){
     await user.save()
     return token
 }
+
+
 
 userSchema.statics.findByCredentials = async (email,password)=>{
     const user= await User.findOne({email})
