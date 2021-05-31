@@ -1,40 +1,42 @@
 const express = require('express')
-const User = require('./models/users')
 require('./db/mongoose')
-const UserRouter= require('./routers/users')
+const userRouter = require('./routers/user')
+const taskRouter = require('./routers/task')
 
-// const router = express.Router()
-
-const jwt = require('jsonwebtoken')
 const app = express()
 const port = process.env.PORT || 3000
 
-app.use((req,res,next)=>{
+// app.use((req, res, next) => {
+//     if (req.method === 'GET') {
+//         res.send('GET requests are disabled')
+//     } else {
+//         next()
+//     }
+// })
 
-    // console.log("trym")
-    next()
-})
+// app.use((req, res, next) => {
+//     res.status(503).send('Site is currently down. Check back soon!')
+// })
 
 app.use(express.json())
-app.use(UserRouter)
+app.use(userRouter)
+app.use(taskRouter)
 
-app.listen(port,()=>{
-    console.log("listening on "+ port)
+app.listen(port, () => {
+    console.log('Server is up on port ' + port)
 })
 
-const myFunction = async ()=>{
-    const token = jwt.sign({ _id:'abc123'},'vvuutvutt',{expiresIn: '1 seconds'})
-    console.log(token)
-    console.log(jwt.verify(token,'vvuutvutt'))
+const Task = require('./models/task')
+const User = require('./models/user')
+
+const main = async () => {
+    // const task = await Task.findById('5c2e505a3253e18a43e612e6')
+    // await task.populate('owner').execPopulate()
+    // console.log(task.owner)
+
+    // const user = await User.findById('5c2e4dcb5eac678a23725b5b')
+    // await user.populate('tasks').execPopulate()
+    // console.log(user.tasks)
 }
 
-// myFunction()
-
-const pet = {
-    'name':'hel'
-}
- pet.toJSON=function(){
-     return this
- }
-
-
+main()
