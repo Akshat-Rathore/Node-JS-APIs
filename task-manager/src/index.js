@@ -5,6 +5,31 @@ const taskRouter = require('./routers/task')
 
 const app = express()
 const port = process.env.PORT || 3000
+const er=(req,res,next)=>{
+    throw new Error('Mine ass')
+}
+const multer = require('multer')
+const  upload= multer({
+    dest: 'images',
+    limits:{
+        fileSize:1000000
+    },
+    fileFilter(req,file,cb){
+        if(!file.originalname.match(/\.(doc|docx)$/)){
+            return cb(new Error('not PDF'))
+        }
+        cb(undefined,true)
+    }
+
+    
+})
+app.post('/upload',upload.single('upload'),(req,res)=>{
+    res.send()
+},(error,req,res,next)=>{
+    res.status(400).send({error:error.message})
+})
+
+
 
 // app.use((req, res, next) => {
 //     if (req.method === 'GET') {
